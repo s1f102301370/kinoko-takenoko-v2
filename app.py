@@ -33,7 +33,8 @@ def answer():
         message=re.sub(r"&gt;",message)
         message=re.sub(r"\*(.+)\*",r"<strong>\1</strong>",message)
         message=re.sub(r"(\d{2,3})-\d+-\d+",r"\1-****-****",message)
-        messaga=re.sub(r"(http://|https://)",r"<a href=\1>\1</a>",message)
+        url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+        message = url_pattern.sub(r'<a href="\g<0>">\g<0></a>', message)
         message_html+='<div class="alert {1}" role="alert">{0}</div>\n'.format(message,"alert-warning ms-5"if i%2==0 else"alert-success me-5")
     return render_template('vote.html', **vars())
 
